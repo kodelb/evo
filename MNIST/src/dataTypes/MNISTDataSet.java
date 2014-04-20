@@ -13,7 +13,7 @@ public class MNISTDataSet {
 	public ArrayList<MNISTImage> getImages() {
 		return images;
 	}
-	
+
 	public int size() {
 		return images.size();
 	}
@@ -25,15 +25,16 @@ public class MNISTDataSet {
 	public MNISTDataSet() {
 		images = new ArrayList<>();
 	}
-	
+
 	public void resample(double percent) {
 		Collections.shuffle(this.images);
-		this.images = new ArrayList<>(this.images.subList(0, (int) (percent * this.size())));
+		this.images = new ArrayList<>(this.images.subList(0,
+				(int) (percent * this.size())));
 	}
 
 	public MNISTDataSet(String aFileName) throws IOException {
 		this();
-		
+
 		try (BufferedReader br = new BufferedReader(new FileReader(aFileName))) {
 			String line;
 			while ((line = br.readLine()) != null) {

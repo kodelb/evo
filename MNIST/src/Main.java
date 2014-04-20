@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import kNearestNeighbors.KNN;
 import dataTypes.MNISTDataSet;
@@ -19,10 +20,10 @@ public class Main {
 	final static String validateFile1 = "./input/validate1.txt";
 	final static String validateFile2 = "./input/validate2.txt";
 	final static String testFile = "./input/test.txt";
-	final static String outFile = "./input/out.txt";
+	final static String outFile = "./input/prediction.txt";
 	final static Mode MODE = Mode.VALIDATE1;
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, InterruptedException, ExecutionException {
 
 		long startTime = System.currentTimeMillis();
 		System.out.println("training...");
