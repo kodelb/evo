@@ -36,7 +36,10 @@ public class MNISTImage {
 		classification = splitted[0];
 		for (int i = 1; i < splitted.length; i++) {
 			image[i - 1] = Float.parseFloat(splitted[i]);
+			
+		
 		}
+		
 	}
 
 	public float euclideanDistance(MNISTImage other) {

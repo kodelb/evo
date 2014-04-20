@@ -7,11 +7,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.PriorityQueue;
 
+import dataTypes.MNISTDataSet;
 import dataTypes.MNISTImage;
 
 public class KNN {
+	final static int K = 1;
+
 	private ArrayList<MNISTImage> trainingSet;
-	static int K = 5;
 
 	public KNN(ArrayList<MNISTImage> trainingSet) {
 		super();
@@ -46,6 +48,26 @@ public class KNN {
 		// return findTopK(newExample, K)[0].getClassification();
 	}
 
+	public ArrayList<String> classify(MNISTDataSet dataSet) {
+		ArrayList<String> classfications = new ArrayList<>(dataSet.size());
+		for (MNISTImage image : dataSet.getImages()) {
+			classfications.add(this.classify(image));
+		}
+
+		return classfications;
+	}
+
+	public double getAccuracy(MNISTDataSet dataSet) {
+		int successCount = 0;
+		for(MNISTImage image : dataSet.getImages()) {
+			if(image.getClassification().equals(this.classify(image))) {
+				successCount++;
+			}
+		}
+		
+		return ((double)successCount)/dataSet.size();
+	}
+
 	private MNISTImage[] findTopK(final MNISTImage newExample, int k) {
 		PriorityQueue<MNISTImage> pq = new PriorityQueue<>(k,
 				new Comparator<MNISTImage>() {
@@ -56,7 +78,7 @@ public class KNN {
 								newExample.euclideanDistance(o2));
 					}
 				});
-		
+
 		for (MNISTImage trainingExample : trainingSet) {
 			if (pq.size() < k)
 				pq.add(trainingExample);
