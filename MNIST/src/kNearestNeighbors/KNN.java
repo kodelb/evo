@@ -38,7 +38,7 @@ public class KNN {
 			for (MNISTImage neighbor : findTopK(newExample, K)) {
 				Integer count = occuranceMap.get(neighbor.getClassification());
 
-				if (count == null) {
+				if (null == count) {
 					count = 0;
 				}
 

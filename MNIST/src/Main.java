@@ -31,8 +31,8 @@ public class Main {
 		trainSet.resample(0.25);
 		KNN knn = new KNN(trainSet.getImages());
 		long endTime = System.currentTimeMillis();
-		System.out.println("training done in " + (endTime - startTime) / 1000);
-
+		System.out.println("training done in " + (endTime - startTime) / 1000 + " seconds");
+		startTime = System.currentTimeMillis();
 		switch (MODE) {
 		case VALIDATE1:
 			System.out.println("validation: "
