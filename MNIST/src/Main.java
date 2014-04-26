@@ -1,3 +1,6 @@
+import ga.GeneticAlgorithm;
+import ga.MNISTFeatureChromosome;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -9,6 +12,7 @@ import java.util.concurrent.ExecutionException;
 
 import kNearestNeighbors.KNN;
 import dataTypes.MNISTDataSet;
+import dataTypes.MNISTImage;
 
 public class Main {
 
@@ -21,25 +25,50 @@ public class Main {
 	final static String validateFile2 = "./input/validate2.txt";
 	final static String testFile = "./input/test.txt";
 	final static String outFile = "./input/prediction.txt";
-	final static Mode MODE = Mode.VALIDATE1;
+	final static Mode MODE = Mode.VALIDATE2;
 
-	public static void main(String[] args) throws IOException, InterruptedException, ExecutionException {
+	public static void main(String[] args) throws IOException,
+			InterruptedException, ExecutionException {
 
 		long startTime = System.currentTimeMillis();
 		System.out.println("training...");
-		MNISTDataSet trainSet = new MNISTDataSet(trainFile);
-		trainSet.resample(0.25);
-		KNN knn = new KNN(trainSet.getImages());
+		MNISTDataSet trainSet = new MNISTDataSet(trainFile).resample(0.05);
+		KNN knn = new KNN(trainSet);
+
 		long endTime = System.currentTimeMillis();
-		System.out.println("training done in " + (endTime - startTime) / 1000 + " seconds");
+		System.out.println("training done in " + (endTime - startTime) / 1000
+				+ " seconds");
+
+		System.out.println("staring GA");
+
+		MNISTFeatureChromosome.knn = knn;
+		MNISTFeatureChromosome.validation = 
+				new MNISTDataSet(validateFile1).resample(0.1);
+		System.out.println("starting " + knn.getSuccessCount(MNISTFeatureChromosome.validation));
+
+		startTime = System.currentTimeMillis();
+
+		GeneticAlgorithm ga = new GeneticAlgorithm();
+		for (int i = 0; i < 10; i++) {
+			ga.evolvePopulation();
+			System.out.println("round " + i + " best is " + ga.getBest().fitness());
+		}
+
+		endTime = System.currentTimeMillis();
+		System.out.println("GA done in " + (endTime - startTime) / 1000
+				+ " seconds");
+
+		MNISTImage.usedPixels = ((MNISTFeatureChromosome) ga.getBest())
+				.getFeatures();
+
 		startTime = System.currentTimeMillis();
 		switch (MODE) {
 		case VALIDATE1:
-			System.out.println("validation: "
+			System.out.println("validation1: "
 					+ knn.getAccuracy(new MNISTDataSet(validateFile1)));
 			break;
 		case VALIDATE2:
-			System.out.println("validation: "
+			System.out.println("validation2: "
 					+ knn.getAccuracy(new MNISTDataSet(validateFile2)));
 			break;
 		case TEST:

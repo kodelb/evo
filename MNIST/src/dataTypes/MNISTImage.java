@@ -1,12 +1,14 @@
 package dataTypes;
 
 import java.util.Arrays;
+import java.util.BitSet;
 
 public class MNISTImage {
-	public static int rows = 28;
-	public static int cols = 28;
+	public static final int rows = 28;
+	public static final int cols = 28;
 
 	private float[] image;
+	public static BitSet usedPixels = null;
 	private String classification;
 
 	public float[] getImage() {
@@ -45,8 +47,10 @@ public class MNISTImage {
 		float sum = 0;
 
 		for (int i = 0; i < this.image.length; i++) {
-			float tmp = (this.image[i] - other.image[i]);
-			sum = sum + tmp * tmp;
+			if (usedPixels == null || usedPixels.get(i)) {
+				float tmp = (this.image[i] - other.image[i]);
+				sum = sum + tmp * tmp;
+			}
 		}
 
 		return sum;

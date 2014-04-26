@@ -26,10 +26,13 @@ public class MNISTDataSet {
 		images = new ArrayList<>();
 	}
 
-	public void resample(double percent) {
+	public MNISTDataSet resample(double percent) {
 		Collections.shuffle(this.images);
-		this.images = new ArrayList<>(this.images.subList(0,
+		MNISTDataSet dataSet = new MNISTDataSet();
+		dataSet.images = new ArrayList<>(this.images.subList(0,
 				(int) (percent * this.size())));
+		return  dataSet;
+		
 	}
 
 	public MNISTDataSet(String aFileName) throws IOException {

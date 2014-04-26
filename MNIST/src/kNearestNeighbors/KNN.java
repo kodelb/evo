@@ -18,13 +18,17 @@ import dataTypes.MNISTDataSet;
 import dataTypes.MNISTImage;
 
 public class KNN {
-	final static int K = 1;
+	final static int K = 5;
 
 	private ArrayList<MNISTImage> trainingSet;
 
 	public KNN(ArrayList<MNISTImage> trainingSet) {
 		super();
 		this.trainingSet = trainingSet;
+	}
+	
+	public KNN(MNISTDataSet trainingSet) {
+		this(trainingSet.getImages());
 	}
 
 	@SuppressWarnings("unused")
@@ -70,7 +74,7 @@ public class KNN {
 		return classfications;
 	}
 
-	public double getAccuracy(MNISTDataSet dataSet)
+	public int getSuccessCount(MNISTDataSet dataSet)
 			throws InterruptedException, ExecutionException {
 		int successCount = 0;
 		ArrayList<Future<Integer>> futuresList = new ArrayList<>();
@@ -92,6 +96,13 @@ public class KNN {
 			successCount += future.get();
 		}
 
+		return successCount;
+
+	}
+
+	public double getAccuracy(MNISTDataSet dataSet)
+			throws InterruptedException, ExecutionException {
+		int successCount = this.getSuccessCount(dataSet);
 		return ((double) successCount) / dataSet.size();
 	}
 
