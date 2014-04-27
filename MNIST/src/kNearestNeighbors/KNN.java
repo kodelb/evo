@@ -18,7 +18,7 @@ import dataTypes.MNISTDataSet;
 import dataTypes.MNISTImage;
 
 public class KNN {
-	final static int K = 5;
+	final static int K = 1;
 
 	private ArrayList<MNISTImage> trainingSet;
 
