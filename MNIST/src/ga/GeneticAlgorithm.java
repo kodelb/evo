@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class GeneticAlgorithm {
 	private static final double mutationRate = 0.08;
-	private static final int tournamentSize = 5;
+	private static final int tournamentSize = 3;
 	private static final int populationSize = 30;
 
 	private ArrayList<Chromosome> population;

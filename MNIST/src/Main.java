@@ -32,8 +32,8 @@ public class Main {
 
 		long startTime = System.currentTimeMillis();
 		System.out.println("training...");
-		MNISTDataSet trainSet = new MNISTDataSet(trainFile).resample(0.25);
-		KNN knn = new KNN(trainSet);
+		MNISTDataSet trainSet = new MNISTDataSet(trainFile);
+		KNN knn = new KNN(trainSet.resample(0.1));
 
 		long endTime = System.currentTimeMillis();
 		System.out.println("training done in " + (endTime - startTime) / 1000
@@ -42,14 +42,17 @@ public class Main {
 		System.out.println("staring GA");
 
 		MNISTFeatureChromosome.knn = knn;
+		MNISTDataSet validationSet = new MNISTDataSet(validateFile1);
 		MNISTFeatureChromosome.validation = 
-				new MNISTDataSet(validateFile1).resample(0.05);
+				validationSet.resample(0.05);
 		System.out.println("starting " + knn.getSuccessCount(MNISTFeatureChromosome.validation));
 
 		startTime = System.currentTimeMillis();
 
 		GeneticAlgorithm ga = new GeneticAlgorithm();
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 50; i++) {
+		MNISTFeatureChromosome.validation = 
+				validationSet.resample(0.05);
 			ga.evolvePopulation();
 			System.out.println("round " + i + " best is " + ga.getBest().fitness());
 		}
@@ -60,6 +63,7 @@ public class Main {
 
 		MNISTImage.usedPixels = ((MNISTFeatureChromosome) ga.getBest())
 				.getFeatures();
+		knn.setTrainingSet(trainSet);
 
 		startTime = System.currentTimeMillis();
 		switch (MODE) {

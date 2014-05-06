@@ -18,9 +18,21 @@ import dataTypes.MNISTDataSet;
 import dataTypes.MNISTImage;
 
 public class KNN {
-	final static int K = 1;
+	final static int K = 5;
 
 	private ArrayList<MNISTImage> trainingSet;
+
+	public ArrayList<MNISTImage> getTrainingSet() {
+		return trainingSet;
+	}
+
+	public void setTrainingSet(ArrayList<MNISTImage> trainingSet) {
+		this.trainingSet = trainingSet;
+	}
+	
+	public void setTrainingSet(MNISTDataSet trainingSet) {
+		this.trainingSet = trainingSet.getImages();
+	}
 
 	public KNN(ArrayList<MNISTImage> trainingSet) {
 		super();

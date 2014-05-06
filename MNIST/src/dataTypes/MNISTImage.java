@@ -48,8 +48,8 @@ public class MNISTImage {
 
 		for (int i = 0; i < this.image.length; i++) {
 			if (usedPixels == null || usedPixels.get(i)) {
-				float tmp = (this.image[i] - other.image[i]);
-				sum = sum + tmp * tmp;
+				float tmp = Math.abs((this.image[i] - other.image[i]));
+				sum += tmp * tmp * tmp;
 			}
 		}
 
