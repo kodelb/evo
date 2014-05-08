@@ -43,16 +43,15 @@ public class Main {
 
 		MNISTFeatureChromosome.knn = knn;
 		MNISTDataSet validationSet = new MNISTDataSet(validateFile1);
-		MNISTFeatureChromosome.validation = 
-				validationSet.resample(0.05);
-		System.out.println("starting " + knn.getSuccessCount(MNISTFeatureChromosome.validation));
+		MNISTFeatureChromosome.validation = validationSet.resample(0.05);
+		System.out.println("starting "
+				+ knn.getSuccessCount(MNISTFeatureChromosome.validation));
 
 		startTime = System.currentTimeMillis();
 
 		GeneticAlgorithm ga = new GeneticAlgorithm();
 		for (int i = 0; i < 50; i++) {
-		MNISTFeatureChromosome.validation = 
-				validationSet.resample(0.05);
+			//MNISTFeatureChromosome.validation = validationSet.resample(0.05);
 			ga.evolvePopulation();
 			System.out.println("round " + i + " best is " + ga.getBest().fitness());
 		}
@@ -74,9 +73,10 @@ public class Main {
 		case VALIDATE2:
 			System.out.println("validation2: "
 					+ knn.getAccuracy(new MNISTDataSet(validateFile2)));
-			//break;
+			// break;
 		case TEST:
-			writePrediction(outFile + ga.getBest().fitness(), knn.classify(new MNISTDataSet(testFile)));
+			writePrediction(outFile + ga.getBest().fitness(),
+					knn.classify(new MNISTDataSet(testFile)));
 			break;
 		default:
 			break;
